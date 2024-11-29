@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pagination Example</title>
+  <style>
+    .pagination {
+      display: flex;
+      justify-content: center;
+      list-style-type: none;
+    }
+    .pagination li {
+      margin: 0 5px;
+      cursor: pointer;
+    }
+    .pagination li.disabled {
+      color: #ccc;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+  <h1>Table with Pagination</h1>
+
+  <table border="1" cellpadding="10">
+    <thead>
+      <tr>
+        <th>Item</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% data.forEach(item => { %>
+        <tr>
+          <td><%= item %></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+
+  <ul class="pagination">
+    <li class="<%= currentPage === 1 ? 'disabled' : '' %>">
+      <a href="/table?page=<%= currentPage - 1 %>">Previous</a>
+    </li>
+
+    <li class="<%= currentPage === 1 ? 'disabled' : '' %>">
+      <a href="/table?page=1">1</a>
+    </li>
+
+    <% if (currentPage > 3) { %>
+      <li><span>...</span></li>
+    <% } %>
+
+    <% for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) { %>
+      <li class="<%= i === currentPage ? 'disabled' : '' %>">
+        <a href="/table?page=<%= i %>"><%= i %></a>
+      </li>
+    <% } %>
+
+    <% if (currentPage < totalPages - 2) { %>
+      <li><span>...</span></li>
+    <% } %>
+
+    <li class="<%= currentPage === totalPages ? 'disabled' : '' %>">
+      <a href="/table?page=<%= totalPages %>"><%= totalPages %></a>
+    </li>
+
+    <li class="<%= currentPage === totalPages ? 'disabled' : '' %>">
+      <a href="/table?page=<%= currentPage + 1 %>">Next</a>
+    </li>
+  </ul>
+</body>
+</html>
